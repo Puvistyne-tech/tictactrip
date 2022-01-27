@@ -24,10 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.text());
 
 //public route
-//
 app.use('/', indexRouter);
-app.use('/api/token', tokenRouter);
-// app.use()
+app.use('/api/token',helpers.hasEmailInBodyAsJSON, tokenRouter);
 
 //protected route
 app.use('/api/justify',helpers.limitAccessToAuthentificatedOnly,helpers.limitAccess, justifyRouter);
