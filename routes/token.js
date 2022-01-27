@@ -24,7 +24,7 @@ router.post('/', async (req, res, next) => {
         if (email) {
             User.getUserByMail(email, (err, user) => {
                 if (err) {
-                    req.status(406).json({message: err.message})
+                    res.status(406).json({message: err.message})
                 }
                 if (user) {
                     if (isExpired(user.token)) {
@@ -35,7 +35,7 @@ router.post('/', async (req, res, next) => {
                 } else {
                     User.createUser(email, (err, user) => {
                         if (err) {
-                            req.status(406).json({message: err.message})
+                            res.status(406).json({message: err.message})
                         }
                         res.json(user)
                     })
