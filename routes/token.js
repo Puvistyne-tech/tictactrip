@@ -19,29 +19,28 @@ const User = require('../services/users')
 * */
 router.post('/', async (req, res, next) => {
 
-    //getting email passed in body
+        //getting email passed in body
         let {email} = req.body
-        if (email) {
-            User.getUserByMail(email, (err, user) => {
-                if (err) {
-                    res.status(406).json({message: err.message})
+        User.getUserByMail(email, (err, user) => {
+            if (err) {
+                res.status(406).json({message: err.message})
+            }
+            if (user) {
+                if (isExpired(user.token)) {
+                    console.log("token expired")
+                    User.updateUser(user)
                 }
-                if (user) {
-                    if (isExpired(user.token)) {
-                        console.log("token expired")
-                        User.updateUser(user)
+                res.json({token: user.token})
+            } else {
+                User.createUser(email, (err, user) => {
+                    if (err) {
+                        res.status(406).json({message: err.message})
                     }
-                    res.json({token: user.token})
-                } else {
-                    User.createUser(email, (err, user) => {
-                        if (err) {
-                            res.status(406).json({message: err.message})
-                        }
-                        res.json(user)
-                    })
-                }
-            })
-        }
+                    res.json(user)
+                })
+            }
+        })
+
     }
 )
 

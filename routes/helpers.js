@@ -23,6 +23,20 @@ helpers.limitAccessToAuthentificatedOnly = (req, res, next) => {
     }, next)
 };
 
+/**
+ * a middleware to control incomming body
+ * you can do email verifications here
+ * but email verification is not yet implemented
+ * @param req
+ * @param res
+ * @param next
+ */
+helpers.hasEmailInBodyAsJSON = (req, res, next) => {
+    const {email} = req.body
+    if (!email) res.sendStatus(400)//bad request
+    next()
+}
+
 
 helpers.limitAccess = (req, res, next) => {
 
@@ -30,6 +44,7 @@ helpers.limitAccess = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1]
     const text = req.body
 
+    if (!text) res.sendStatus(400)//bad request
     getUserByToken(token, (err, user) => {
         if (err) {
             res.sendStatus(401)
