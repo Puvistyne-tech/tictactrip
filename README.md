@@ -12,4 +12,4 @@ It contains principally two routes `api/token` and `api/justify`
   * `api/justify` - to justify the text passed in a `POST` request with `content-type:text`. It has a word limit of 80 000.
 
 ## Public URL 
-You can access the api in : `à venir`
+You can access the api in : `https://tictactrip-01.herokuapp.com/`
